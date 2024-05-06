@@ -1,0 +1,14 @@
+<template unencoded="false">
+  <roots>
+    <root index="0" path="" />
+    <root index="1" path="common" />
+    <root index="2" path="platform" />
+    <root index="3" path="platform/platform-bukkit" />
+    <root index="4" path="platform/platform-velocity" />
+    <root index="5" path="buildSrc" />
+    <root index="6" path="common/src/main" />
+    <root index="7" path="platform/platform-bukkit/src/main" />
+    <root index="8" path="platform/platform-velocity/src/main" />
+    <root index="9" path="buildSrc/src/main" />
+  </roots>
+</template>

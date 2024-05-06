@@ -3,12 +3,14 @@ plugins {
 }
 
 dependencies {
-    compileSnapiLibraryBukkit()
     compileSpigotApi()
+    compileSnapiLibraryBukkit()
+    implementateCommon()
+    compileOnly(files("libs/UltraSkyWars.jar"))
 }
 
 bukkit {
-    main = "ru.snapix.example.ExampleBukkit"
+    main = "ru.snapix.balancer.BalancerBukkit"
     author = "Flaimer"
     website = "https://mcsnapix.ru"
 }

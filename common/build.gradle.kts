@@ -1,6 +1,6 @@
 dependencies {
     compileSnapiLibraryVelocity()
     compileSnapiLibraryBukkit()
-    implementateVelocity()
-    implementateBukkit()
+    compileSpigotApi()
+    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion")
 }
