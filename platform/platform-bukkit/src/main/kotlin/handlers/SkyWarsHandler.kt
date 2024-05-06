@@ -35,8 +35,8 @@ object SkyWarsHandler : Handler {
             port = server.port
             serverType = ServerType.SKYWARS
             maxPlayers = server.maxPlayers
-            state = SkyWarsStatus(gameData.state).toState()
-            mode = SkyWarsMode(gameData.type).toMode()
+            state = state(gameData.state)
+            mode = mode(gameData.type)
         }
         plugin.updateServer(balancerServer)
     }
@@ -49,8 +49,8 @@ object SkyWarsHandler : Handler {
             serverType = ServerType.SKYWARS
             players = game.players.map { it.uniqueId }
             maxPlayers = server.maxPlayers
-            state = SkyWarsStatus(game.state).toState()
-            mode = SkyWarsMode(game.gameType).toMode()
+            state = state(game.state)
+            mode = mode(game.gameType)
         }
         plugin.updateServer(balancerServer)
     }
@@ -80,7 +80,7 @@ object SkyWarsHandler : Handler {
         else -> State.RESTARTING
     }
 
-    private fun state(value: String): State = io.github.Leonardo0013YT.UltraSkyWars.enums.State.valueOf(value)
+    private fun state(value: String): State = state(io.github.Leonardo0013YT.UltraSkyWars.enums.State.valueOf(value))
 }
 
 class SkyWarsListener : Listener {
@@ -100,19 +100,5 @@ class SkyWarsListener : Listener {
 
     fun onGameFinish(event: USWGameFinishEvent) {
         SkyWarsHandler.updateServer(event.game)
-    }
-}
-
-@JvmInline
-value class SkyWarsStatus(private val value: io.github.Leonardo0013YT.UltraSkyWars.enums.State) {
-    constructor(value: String) : this(io.github.Leonardo0013YT.UltraSkyWars.enums.State.valueOf(value))
-
-    fun toState() = when (value) {
-        io.github.Leonardo0013YT.UltraSkyWars.enums.State.WAITING -> State.WAITING
-        io.github.Leonardo0013YT.UltraSkyWars.enums.State.STARTING -> State.STARTING
-        io.github.Leonardo0013YT.UltraSkyWars.enums.State.PREGAME -> State.GAME
-        io.github.Leonardo0013YT.UltraSkyWars.enums.State.GAME -> State.GAME
-        io.github.Leonardo0013YT.UltraSkyWars.enums.State.FINISH -> State.FINISH
-        else -> State.RESTARTING
     }
 }
