@@ -9,3 +9,4 @@ object Balancer {
 
 val ServerType.redisKeyServer
     get() = "balancer-server:${this.name.lowercase()}"
+const val redisKeyConnect = "balancer-connect"
