@@ -1,5 +1,5 @@
 dependencies {
     compileVelocityApi()
-    compileSnapiLibraryVelocity()
     implementateCommon()
+    compileSnapiLibraryVelocity()
 }

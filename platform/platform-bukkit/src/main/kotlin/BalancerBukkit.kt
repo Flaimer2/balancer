@@ -3,8 +3,8 @@ package ru.snapix.balancer
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.bukkit.plugin.java.JavaPlugin
-import ru.snapix.balancer.handlers.LobbyHandler
-import ru.snapix.balancer.handlers.SkyWarsHandler
+import ru.snapix.balancer.handlers.lobby.LobbyHandler
+import ru.snapix.balancer.handlers.skywars.SkyWarsHandler
 import ru.snapix.balancer.settings.Settings
 import ru.snapix.library.ServerType
 
@@ -33,7 +33,6 @@ class BalancerBukkit : JavaPlugin() {
         }
     }
 
-
     fun updateServer(balancerServer: BalancerServer) {
         this.balancerServer = balancerServer
         Balancer.pool.resource.apply {
@@ -43,25 +42,6 @@ class BalancerBukkit : JavaPlugin() {
         }
     }
 
-    fun getServers(type: ServerType): Map<String, BalancerServer> {
-        if (type == ServerType.UNKNOWN) return mapOf()
-        Balancer.pool.resource.apply {
-            return hgetAll(type.redisKeyServer).mapValues {
-                Json.decodeFromString<BalancerServer>(it.value)
-            }
-        }
-    }
-
-    fun getServer(type: ServerType, server: String): BalancerServer? {
-        if (type == ServerType.UNKNOWN || server.isEmpty()) return null
-        Balancer.pool.resource.apply {
-            return Json.decodeFromString<BalancerServer>(hget(type.redisKeyServer, server))
-        }
-    }
-
-    fun getServer(server: String): BalancerServer? {
-        return getServer(ServerType(server), server)
-    }
 
     companion object {
         lateinit var instance: BalancerBukkit

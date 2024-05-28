@@ -1,10 +1,31 @@
 package ru.snapix.balancer
 
+import kotlinx.serialization.json.Json
 import redis.clients.jedis.JedisPool
 import ru.snapix.library.ServerType
 
 object Balancer {
     val pool = JedisPool("localhost", 6379)
+
+    fun getServers(type: ServerType): Map<String, BalancerServer> {
+        if (type == ServerType.UNKNOWN) return mapOf()
+        pool.resource.apply {
+            return hgetAll(type.redisKeyServer).mapValues {
+                Json.decodeFromString<BalancerServer>(it.value)
+            }
+        }
+    }
+
+    fun getServer(type: ServerType, server: String): BalancerServer? {
+        if (type == ServerType.UNKNOWN || server.isEmpty()) return null
+        pool.resource.apply {
+            return Json.decodeFromString<BalancerServer>(hget(type.redisKeyServer, server))
+        }
+    }
+
+    fun getServer(server: String): BalancerServer? {
+        return getServer(ServerType(server), server)
+    }
 }
 
 val ServerType.redisKeyServer

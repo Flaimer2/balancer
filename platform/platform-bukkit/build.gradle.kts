@@ -10,7 +10,9 @@ dependencies {
 }
 
 bukkit {
+    name = rootName
     main = "ru.snapix.balancer.BalancerBukkit"
     author = "Flaimer"
     website = "https://mcsnapix.ru"
+    depend = listOf("SnapiLibrary")
 }
