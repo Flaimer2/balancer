@@ -7,6 +7,7 @@ dependencies {
     compileSnapiLibraryBukkit()
     implementateCommon()
     compileOnly(files("libs/UltraSkyWars.jar"))
+    compileOnly("me.clip:placeholderapi:2.11.6")
 }
 
 bukkit {
@@ -14,5 +15,5 @@ bukkit {
     main = "ru.snapix.balancer.BalancerBukkit"
     author = "Flaimer"
     website = "https://mcsnapix.ru"
-    depend = listOf("SnapiLibrary")
+    depend = listOf("SnapiLibrary", "PlaceholderAPI")
 }
