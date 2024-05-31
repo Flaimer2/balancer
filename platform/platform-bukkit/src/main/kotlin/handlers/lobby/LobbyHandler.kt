@@ -11,5 +11,6 @@ object LobbyHandler : Handler {
     override fun enable() {
         val commandManager = BukkitCommandManager(plugin)
         commandManager.registerCommand(ConnectCommand())
+        BalancerExpansion().register()
     }
 }

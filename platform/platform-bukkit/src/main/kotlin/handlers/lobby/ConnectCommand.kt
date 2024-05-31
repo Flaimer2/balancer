@@ -11,6 +11,7 @@ import ru.snapix.balancer.BalancerServer
 import ru.snapix.balancer.Mode
 import ru.snapix.balancer.extensions.canJoin
 import ru.snapix.balancer.extensions.connect
+import ru.snapix.balancer.extensions.getBestServer
 import ru.snapix.balancer.extensions.message
 import ru.snapix.balancer.settings.Settings
 import ru.snapix.library.ServerType

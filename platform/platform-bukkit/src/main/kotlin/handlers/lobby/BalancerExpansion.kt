@@ -1,8 +1,11 @@
-package ru.snapix.balancer
+package ru.snapix.balancer.handlers.lobby
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
+import ru.snapix.balancer.Balancer
+import ru.snapix.balancer.BalancerServer
+import ru.snapix.balancer.Mode
 import ru.snapix.balancer.extensions.getBestServer
 import ru.snapix.library.ServerType
 
