@@ -24,3 +24,11 @@ fun Player.message(message: String, vararg pair: Pair<String, String>) {
     pair.forEach { result = result.replace("%${it.first}%", it.second) }
     message(result)
 }
+
+fun Player.message(messages: List<String>) {
+    messages.forEach { message(it) }
+}
+
+fun Player.message(vararg messages: String) {
+    messages.forEach { message(it) }
+}

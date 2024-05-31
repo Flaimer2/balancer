@@ -1,5 +1,6 @@
 package ru.snapix.balancer.settings
 
+import space.arim.dazzleconf.annote.ConfDefault.DefaultStrings
 import space.arim.dazzleconf.annote.ConfDefault.DefaultString
 import space.arim.dazzleconf.annote.SubSection
 
@@ -8,6 +9,9 @@ interface MessageConfig {
     fun connectCommand(): ConnectCommand
 
     interface ConnectCommand {
+        @DefaultStrings("fs", "gdgf")
+        fun help(): List<String>
+
         @DefaultString("&cСервер %server_name% не найден!")
         fun serverNotFound(): String
 
