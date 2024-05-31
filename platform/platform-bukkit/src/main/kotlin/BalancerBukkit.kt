@@ -3,6 +3,7 @@ package ru.snapix.balancer
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.bukkit.plugin.java.JavaPlugin
+import ru.snapix.balancer.handlers.Handler
 import ru.snapix.balancer.handlers.lobby.LobbyHandler
 import ru.snapix.balancer.handlers.skywars.SkyWarsHandler
 import ru.snapix.balancer.settings.Settings
@@ -10,13 +11,16 @@ import ru.snapix.library.ServerType
 
 class BalancerBukkit : JavaPlugin() {
     private lateinit var balancerServer: BalancerServer
+    lateinit var handler: Handler
+    lateinit var serverType: ServerType
 
     override fun onLoad() {
         instance = this
+        serverType = Settings.config.gameType()
     }
 
     override fun onEnable() {
-        when (Settings.config.gameType()) {
+        when (serverType) {
             ServerType.AUTH -> TODO()
             ServerType.LOBBY -> LobbyHandler.enable()
             ServerType.CLASSIC -> TODO()
@@ -31,6 +35,10 @@ class BalancerBukkit : JavaPlugin() {
             ServerType.BUILDBATTLE -> TODO()
             ServerType.UNKNOWN -> error("Not found server type")
         }
+    }
+
+    override fun onDisable() {
+        handler.disable()
     }
 
     fun updateServer(balancerServer: BalancerServer) {

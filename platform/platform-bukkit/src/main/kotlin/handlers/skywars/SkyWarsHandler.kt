@@ -9,7 +9,6 @@ import ru.snapix.balancer.State
 import ru.snapix.balancer.balancerBukkit
 import ru.snapix.balancer.balancerServer
 import ru.snapix.balancer.handlers.Handler
-import ru.snapix.library.ServerType
 
 object SkyWarsHandler : Handler {
     private val plugin = balancerBukkit
@@ -18,31 +17,19 @@ object SkyWarsHandler : Handler {
     override fun enable() {
         server.pluginManager.registerEvents(SkyWarsListener(), plugin)
         updateServer()
+        plugin.handler = this
     }
 
     override fun disable() {
         updateServer()
     }
 
-    private fun updateServer(gameData: GameData) {
-        val balancerServer = balancerServer {
-            name = server.name
-            map = gameData.map
-            port = server.port
-            serverType = ServerType.SKYWARS
-            maxPlayers = server.maxPlayers
-            state = state(gameData.state)
-            mode = mode(gameData.type)
-        }
-        plugin.updateServer(balancerServer)
-    }
-
     fun updateServer(game: Game) {
         val balancerServer = balancerServer {
-            name = server.name
+            name = server.serverName
             map = game.spectator.world.name
             port = server.port
-            serverType = ServerType.SKYWARS
+            serverType = plugin.serverType
             players = game.players.map { it.uniqueId }
             maxPlayers = server.maxPlayers
             state = state(game.state)
@@ -51,7 +38,20 @@ object SkyWarsHandler : Handler {
         plugin.updateServer(balancerServer)
     }
 
-    fun updateServer() {
+    private fun updateServer(gameData: GameData) {
+        val balancerServer = balancerServer {
+            name = server.serverName
+            map = gameData.map
+            port = server.port
+            serverType = plugin.serverType
+            maxPlayers = server.maxPlayers
+            state = state(gameData.state)
+            mode = mode(gameData.type)
+        }
+        plugin.updateServer(balancerServer)
+    }
+
+    private fun updateServer() {
         val gameData = UltraSkyWarsAPI.getGameData().values.firstOrNull()
         if (gameData == null) {
             balancerBukkit.logger.severe("No arena is configured. Cannot register server.")

@@ -18,11 +18,7 @@ import ru.snapix.library.ServerType
 @CommandPermission("")
 class ConnectCommand : BaseCommand() {
     private val config = Settings.message
-    // Example:
-    // /connect <SW-1>
-    // /connect server <SW-1>
-    // /connect type <SkyWars>
-    // /connect mode <SkyWars> <Solo>
+
     @Default
     @Subcommand("server")
     fun onServer(player: Player, args: String) {
@@ -47,7 +43,7 @@ class ConnectCommand : BaseCommand() {
         }
         val server = Balancer.getBestServer(player, type).firstOrNull()
         if (server == null) {
-            player.message(config.connectCommand().modeServerNotFound().replace("server_mode", type.name.capitalize()))
+            player.message(config.connectCommand().modeServerNotFound(), Pair("server_mode", type.name.capitalize()))
             return
         }
         player.connect(server)
@@ -64,8 +60,7 @@ class ConnectCommand : BaseCommand() {
             player.message(config.connectCommand().unknownServerMode(), Pair("server_mode", args[0].capitalize()))
             return
         }
-        val server =
-            Balancer.getBestServer(player, type).firstOrNull { it.mode.name.lowercase() == args[1].lowercase() }
+        val server = Balancer.getBestServer(player, type).firstOrNull { it.mode.name.lowercase() == args[1].lowercase() }
         if (server == null) {
             player.message(config.connectCommand().typeModeServerNotFound(), Pair("server_mode", type.name.capitalize()), Pair("server_type", args[1].lowercase()))
             return
