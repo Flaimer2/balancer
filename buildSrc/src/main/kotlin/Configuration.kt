@@ -1,6 +1,6 @@
 const val rootName = "SnapiBalancer"
 const val rootGroup = "ru.snapix"
-const val rootVersion = "1.1"
+const val rootVersion = "1.2"
 
 const val kotlinVersion = "1.9.23"
 const val kotlinSerializationVersion = "1.6.3"

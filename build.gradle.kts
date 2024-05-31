@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.support.uppercaseFirstChar
+
 plugins {
     kotlin("jvm") version kotlinVersion
     kotlin("kapt") version kotlinVersion
@@ -36,6 +38,7 @@ subprojects {
     }
 
     tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+        archiveFileName.set("$rootName-${project.name.removePrefix("platform-").uppercaseFirstChar()}.jar")
         archiveAppendix.set("")
         archiveClassifier.set("")
     }
@@ -53,7 +56,7 @@ fun PublishingExtension.applyToSub(subProject: Project) {
             artifactId = project.name.lowercase()
             groupId = rootGroup
             version = "$rootVersion-${subProject.name.removePrefix("platform-")}"
-            artifact(subProject.tasks["ShadowJar"])
+            artifact(subProject.tasks["shadowJar"])
         }
     }
 }

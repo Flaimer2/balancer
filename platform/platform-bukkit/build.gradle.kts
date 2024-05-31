@@ -5,9 +5,15 @@ plugins {
 dependencies {
     compileSpigotApi()
     compileSnapiLibraryBukkit()
-    implementateCommon()
+    implementation(project(":common"))
     compileOnly(files("libs/UltraSkyWars.jar"))
     compileOnly("me.clip:placeholderapi:2.11.6")
+}
+
+tasks {
+    shadowJar {
+        dependsOn(":common:shadowJar")
+    }
 }
 
 bukkit {

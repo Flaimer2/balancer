@@ -24,7 +24,7 @@ import kotlin.jvm.optionals.getOrNull
 @Plugin(
     id = "snapibalancer",
     name = "SnapiBalancer",
-    version = "1.1",
+    version = "1.2",
     authors = ["Flaimer"],
     dependencies = [Dependency(id = "snapilibrary")]
 )

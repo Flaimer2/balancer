@@ -29,6 +29,6 @@ fun Player.message(messages: List<String>) {
     messages.forEach { message(it) }
 }
 
-fun Player.message(vararg messages: String) {
+fun Player.message(messages: Array<String>) {
     messages.forEach { message(it) }
 }
