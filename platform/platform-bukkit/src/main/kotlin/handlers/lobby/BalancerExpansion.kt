@@ -63,6 +63,11 @@ class BalancerExpansion : PlaceholderExpansion() {
             }
         }
 
+        if (params.startsWith("server:", ignoreCase = true)) {
+            val arg = params.removePrefix("server:").split('_')
+            return getValue(Balancer.getServer(arg[0]), arg[1])
+        }
+
         return null
     }
 

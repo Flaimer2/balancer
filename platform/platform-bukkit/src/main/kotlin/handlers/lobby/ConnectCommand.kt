@@ -7,8 +7,6 @@ import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Subcommand
 import org.bukkit.entity.Player
 import ru.snapix.balancer.Balancer
-import ru.snapix.balancer.BalancerServer
-import ru.snapix.balancer.Mode
 import ru.snapix.balancer.extensions.canJoin
 import ru.snapix.balancer.extensions.connect
 import ru.snapix.balancer.extensions.getBestServer
@@ -47,12 +45,12 @@ class ConnectCommand : BaseCommand() {
             player.message(config.connectCommand().unknownServerMode(), Pair("server_mode", args.capitalize()))
             return
         }
-        val best = Balancer.getBestServer(player, type).firstOrNull()
-        if (best == null) {
+        val server = Balancer.getBestServer(player, type).firstOrNull()
+        if (server == null) {
             player.message(config.connectCommand().modeServerNotFound().replace("server_mode", type.name.capitalize()))
             return
         }
-        player.connect(best)
+        player.connect(server)
     }
 
     @Subcommand("mode")
@@ -66,11 +64,12 @@ class ConnectCommand : BaseCommand() {
             player.message(config.connectCommand().unknownServerMode(), Pair("server_mode", args[0].capitalize()))
             return
         }
-        val best = Balancer.getBestServer(player, type).firstOrNull { it.mode.name.lowercase() == args[1].lowercase() }
-        if (best == null) {
+        val server =
+            Balancer.getBestServer(player, type).firstOrNull { it.mode.name.lowercase() == args[1].lowercase() }
+        if (server == null) {
             player.message(config.connectCommand().typeModeServerNotFound(), Pair("server_mode", type.name.capitalize()), Pair("server_type", args[1].lowercase()))
             return
         }
-        player.connect(best)
+        player.connect(server)
     }
 }
