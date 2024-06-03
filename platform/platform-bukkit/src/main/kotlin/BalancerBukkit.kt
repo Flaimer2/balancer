@@ -39,6 +39,7 @@ class BalancerBukkit : JavaPlugin() {
 
     override fun onDisable() {
         handler.disable()
+        Balancer.pool.close()
     }
 
     fun updateServer(balancerServer: BalancerServer) {

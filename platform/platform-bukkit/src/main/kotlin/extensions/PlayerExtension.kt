@@ -9,10 +9,11 @@ import ru.snapix.balancer.BalancerServer
 import ru.snapix.balancer.PlayerConnect
 import ru.snapix.balancer.redisKeyConnect
 import ru.snapix.library.ServerType
+import ru.snapix.library.useAsync
 
 fun Player.connect(server: BalancerServer) {
     if (server.serverType == ServerType.UNKNOWN) return
-    Balancer.pool.resource.publish(redisKeyConnect, Json.encodeToString(PlayerConnect(name, server)))
+    Balancer.jedis.useAsync { publish(redisKeyConnect, Json.encodeToString(PlayerConnect(name, server))) }
 }
 
 fun Player.message(message: String) {
@@ -25,7 +26,7 @@ fun Player.message(message: String, vararg pair: Pair<String, String>) {
     message(result)
 }
 
-fun Player.message(messages: List<String>) {
+fun Player.message(messages: Collection<String>) {
     messages.forEach { message(it) }
 }
 

@@ -7,16 +7,13 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
 import com.velocitypowered.api.plugin.Dependency
 import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
-import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
-import com.velocitypowered.api.proxy.server.RegisteredServer
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.slf4j.Logger
 import redis.clients.jedis.JedisPubSub
 import ru.snapix.balancer.events.PlayerConnectEvent
+import ru.snapix.library.useAsync
 import ru.snapix.library.velocity.VelocityPlugin
 import java.nio.file.Path
 import kotlin.jvm.optionals.getOrNull
@@ -24,7 +21,7 @@ import kotlin.jvm.optionals.getOrNull
 @Plugin(
     id = "snapibalancer",
     name = "SnapiBalancer",
-    version = "1.2",
+    version = "1.3",
     authors = ["Flaimer"],
     dependencies = [Dependency(id = "snapilibrary")]
 )
@@ -36,14 +33,14 @@ class BalancerVelocity @Inject constructor(server: ProxyServer, logger: Logger, 
     @Subscribe
     fun onEnable(event: ProxyInitializeEvent) {
         instance = this
-        CoroutineScope(Dispatchers.IO).launch {
-            Balancer.pool.resource.subscribe(object : JedisPubSub() {
+        Balancer.jedis.useAsync(Dispatchers.IO) {
+            subscribe(object : JedisPubSub() {
                 override fun onMessage(channel: String, message: String) {
-                    val playerConnect: PlayerConnect = Json.decodeFromString<PlayerConnect>(message)
-                    val balancerServer: BalancerServer = playerConnect.server
-                    val player: Player = server.getPlayer(playerConnect.name).getOrNull()
+                    val playerConnect = Json.decodeFromString<PlayerConnect>(message)
+                    val balancerServer = playerConnect.server
+                    val player = server.getPlayer(playerConnect.name).getOrNull()
                         ?: error("Player ${playerConnect.name} not found in balancer connect")
-                    val connectServer: RegisteredServer = server.getServer(balancerServer.name).getOrNull()
+                    val connectServer = server.getServer(balancerServer.name).getOrNull()
                         ?: error("Server ${balancerServer.name} not found in balancer connect")
 
                     logger.debug(
