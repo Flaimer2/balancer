@@ -5,7 +5,7 @@ plugins {
 dependencies {
     compileSpigotApi()
     compileSnapiLibraryBukkit()
-    implementation(project(":common"))
+    implementateCommon()
     compileOnly(files("libs/UltraSkyWars.jar"))
     compileOnly("me.clip:placeholderapi:2.11.6")
 }

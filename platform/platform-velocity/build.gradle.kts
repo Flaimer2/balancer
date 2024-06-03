@@ -1,7 +1,7 @@
 dependencies {
     compileVelocityApi()
-    implementation(project(":common"))
     compileSnapiLibraryVelocity()
+    implementateCommon()
 }
 
 tasks {
