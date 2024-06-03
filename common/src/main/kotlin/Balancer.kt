@@ -22,17 +22,13 @@ object Balancer {
     fun getServer(type: ServerType, server: String): BalancerServer? {
         if (type == ServerType.UNKNOWN || server.isEmpty()) return null
         val result = jedis.async {
-            println("execute")
             val value = hget(type.redisKeyServer, server.lowercase()) ?: return@async null
-            println("value $value")
             Json.decodeFromString<BalancerServer>(value)
         }
-        println("result $result")
         return result
     }
 
     fun getServer(server: String): BalancerServer? {
-        println(server)
         return getServer(ServerType(server), server)
     }
 }
