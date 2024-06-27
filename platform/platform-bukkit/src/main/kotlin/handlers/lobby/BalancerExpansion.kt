@@ -22,15 +22,15 @@ class BalancerExpansion : PlaceholderExpansion() {
             val serverType = ServerType(arg[0])
 
             if (arg.size == 1) {
-                val servers = Balancer.getServers(serverType)
-                return servers.values.sumOf { it.players.size }.toString()
+                val servers = Balancer.servers(serverType)
+                return servers.sumOf { it.players.size }.toString()
             }
             if (arg.size == 2) {
                 val mode = Mode.entries.find { it.name == arg[1].uppercase() }
                 return if (mode != null) {
-                    Balancer.getServers(serverType).values.filter { it.mode == mode }.sumOf { it.players.size }.toString()
+                    Balancer.servers(serverType).filter { it.mode == mode }.sumOf { it.players.size }.toString()
                 } else {
-                    Balancer.getServers(serverType).values.filter { it.map == arg[1] }.sumOf { it.players.size }.toString()
+                    Balancer.servers(serverType).filter { it.map == arg[1] }.sumOf { it.players.size }.toString()
                 }
             }
         }
@@ -65,7 +65,7 @@ class BalancerExpansion : PlaceholderExpansion() {
 
         if (params.startsWith("server:", ignoreCase = true)) {
             val arg = params.removePrefix("server:").lowercase().split('_')
-            return getValue(player, Balancer.getServer(arg[0]), arg[1])
+            return getValue(player, Balancer.server(arg[0]), arg[1])
         }
 
         return null

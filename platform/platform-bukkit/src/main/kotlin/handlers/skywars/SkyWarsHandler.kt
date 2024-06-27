@@ -9,6 +9,7 @@ import ru.snapix.balancer.State
 import ru.snapix.balancer.balancerBukkit
 import ru.snapix.balancer.balancerServer
 import ru.snapix.balancer.handlers.Handler
+import ru.snapix.library.ServerType
 
 object SkyWarsHandler : Handler {
     private val plugin = balancerBukkit
@@ -29,7 +30,7 @@ object SkyWarsHandler : Handler {
             name = server.serverName
             map = game.spectator.world.name
             port = server.port
-            serverType = plugin.serverType
+            serverType = ServerType.SKYWARS
             players = game.players.map { it.uniqueId }
             maxPlayers = server.maxPlayers
             state = state(game.state)
@@ -43,7 +44,7 @@ object SkyWarsHandler : Handler {
             name = server.serverName
             map = gameData.map
             port = server.port
-            serverType = plugin.serverType
+            serverType = ServerType.SKYWARS
             maxPlayers = server.maxPlayers
             state = state(gameData.state)
             mode = mode(gameData.type)

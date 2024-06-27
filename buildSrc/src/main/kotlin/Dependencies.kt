@@ -47,21 +47,21 @@ fun DependencyHandler.compileProtocolize() {
 }
 
 fun DependencyHandler.implementateSnapiLibraryVelocity() {
-    add("implementation", "ru.snapix:snapilibrary:$snapiLibraryVersion-velocity")
+    add("implementation", "ru.snapix:snapilibrary-velocity:$snapiLibraryVersion")
 }
 
 fun DependencyHandler.compileSnapiLibraryVelocity() {
-    add("compileOnly", "ru.snapix:snapilibrary:$snapiLibraryVersion-velocity")
+    add("compileOnly", "ru.snapix:snapilibrary-velocity:$snapiLibraryVersion")
 }
 
 fun DependencyHandler.implementateSnapiLibraryBukkit() {
-    add("implementation", "ru.snapix:snapilibrary:$snapiLibraryVersion-bukkit")
+    add("implementation", "ru.snapix:snapilibrary-bukkit:$snapiLibraryVersion")
 }
 
 fun DependencyHandler.compileSnapiLibraryBukkit() {
-    add("compileOnly", "ru.snapix:snapilibrary:$snapiLibraryVersion-bukkit")
+    add("compileOnly", "ru.snapix:snapilibrary-bukkit:$snapiLibraryVersion")
 }
 
 fun DependencyHandler.testImplementateSnapiLibrary() {
-    add("testImplementation", "ru.snapix:snapilibrary:$snapiLibraryVersion-bukkit")
+    add("testImplementation", "ru.snapix:snapilibrary-bukkit:$snapiLibraryVersion")
 }

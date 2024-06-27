@@ -45,7 +45,7 @@ subprojects {
 }
 
 subprojects
-    .filter { it.name.startsWith("platfrom-") }
+    .filter { it.name.startsWith("platform-bukkit") }
     .forEach { proj ->
         proj.publishing { applyToSub(proj) }
     }
@@ -53,9 +53,9 @@ subprojects
 fun PublishingExtension.applyToSub(subProject: Project) {
     publications {
         create<MavenPublication>("maven") {
-            artifactId = project.name.lowercase()
+            artifactId = "${project.name.lowercase()}-${subProject.name.removePrefix("platform-")}"
             groupId = rootGroup
-            version = "$rootVersion-${subProject.name.removePrefix("platform-")}"
+            version = rootVersion
             artifact(subProject.tasks["shadowJar"])
         }
     }

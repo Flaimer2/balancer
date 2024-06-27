@@ -1,8 +1,8 @@
 package ru.snapix.balancer.settings
 
-import space.arim.dazzleconf.annote.ConfDefault.DefaultStrings
-import space.arim.dazzleconf.annote.ConfDefault.DefaultString
-import space.arim.dazzleconf.annote.SubSection
+import ru.snapix.library.libs.dazzleconf.annote.ConfDefault.DefaultString
+import ru.snapix.library.libs.dazzleconf.annote.ConfDefault.DefaultStrings
+import ru.snapix.library.libs.dazzleconf.annote.SubSection
 
 interface MessageConfig {
     @SubSection

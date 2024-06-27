@@ -6,21 +6,21 @@ import org.bukkit.plugin.java.JavaPlugin
 import ru.snapix.balancer.handlers.Handler
 import ru.snapix.balancer.handlers.lobby.LobbyHandler
 import ru.snapix.balancer.handlers.skywars.SkyWarsHandler
-import ru.snapix.balancer.settings.Settings
 import ru.snapix.library.ServerType
+import ru.snapix.library.redis.async
+import ru.snapix.library.redis.redisClient
+import ru.snapix.library.snapiLibrary
 
 class BalancerBukkit : JavaPlugin() {
     private lateinit var balancerServer: BalancerServer
     lateinit var handler: Handler
-    lateinit var serverType: ServerType
 
     override fun onLoad() {
         instance = this
-        serverType = Settings.config.gameType()
     }
 
     override fun onEnable() {
-        when (serverType) {
+        when (snapiLibrary.serverType) {
             ServerType.AUTH -> TODO()
             ServerType.LOBBY -> LobbyHandler.enable()
             ServerType.CLASSIC -> TODO()
@@ -39,15 +39,12 @@ class BalancerBukkit : JavaPlugin() {
 
     override fun onDisable() {
         handler.disable()
-        Balancer.pool.close()
     }
 
     fun updateServer(balancerServer: BalancerServer) {
         this.balancerServer = balancerServer
-        Balancer.pool.resource.apply {
-            val hash = mutableMapOf<String, String>()
-            hash[balancerServer.name] = Json.encodeToString(balancerServer)
-            hset(balancerServer.serverType.redisKeyServer, hash)
+        redisClient.async {
+            hset(balancerServer.serverType.redisKeyServer, balancerServer.name to Json.encodeToString(balancerServer))
         }
     }
 

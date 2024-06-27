@@ -1,15 +1,15 @@
 package ru.snapix.balancer.handlers.lobby
 
-import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.*
 import org.bukkit.entity.Player
 import ru.snapix.balancer.Balancer
 import ru.snapix.balancer.extensions.canJoin
 import ru.snapix.balancer.extensions.connect
 import ru.snapix.balancer.extensions.getBestServer
-import ru.snapix.balancer.extensions.message
 import ru.snapix.balancer.settings.Settings
 import ru.snapix.library.ServerType
+import ru.snapix.library.libs.commands.BaseCommand
+import ru.snapix.library.libs.commands.annotation.*
+import ru.snapix.library.message
 
 @CommandAlias("connect")
 @CommandPermission("balancer.command.connect")
@@ -25,7 +25,7 @@ class ConnectCommand : BaseCommand() {
     @Default
     @Subcommand("server")
     fun onServer(player: Player, args: String) {
-        val server = Balancer.getServer(args)
+        val server = Balancer.server(args)
         if (server == null) {
             player.message(config.connectCommand().serverNotFound(), Pair("server_name", args.lowercase()))
             return
