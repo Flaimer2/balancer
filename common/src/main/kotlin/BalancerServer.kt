@@ -1,9 +1,7 @@
 package ru.snapix.balancer
 
 import kotlinx.serialization.Serializable
-import ru.snapix.library.ServerType
-import ru.snapix.library.UUIDSerializer
-import java.util.*
+import ru.snapix.library.network.ServerType
 
 @Serializable
 data class BalancerServer(

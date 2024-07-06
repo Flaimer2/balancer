@@ -3,8 +3,8 @@ package ru.snapix.balancer.extensions
 import com.velocitypowered.api.proxy.Player
 import ru.snapix.balancer.*
 import ru.snapix.balancer.events.PlayerConnectEvent
-import ru.snapix.library.ServerType
-import ru.snapix.library.callEvent
+import ru.snapix.library.network.ServerType
+import ru.snapix.library.velocity.utils.callEvent
 import kotlin.jvm.optionals.getOrNull
 
 fun Player.connect(server: BalancerServer) {
@@ -12,13 +12,12 @@ fun Player.connect(server: BalancerServer) {
     val registeredServer = balancerVelocity.server.getServer(server.name).getOrNull() ?: return
 
     createConnectionRequest(registeredServer)
-    balancerVelocity.callEvent(PlayerConnectEvent(this, registeredServer, server))
+    callEvent(PlayerConnectEvent(this, registeredServer, server))
 }
 
-val Player.currentBalancerServer: BalancerServer?
-    get() {
-        val server = currentServer.getOrNull() ?: return null
-        val servername = server.server.serverInfo.name
+fun Player.currentBalancerServer(): BalancerServer? {
+    val server = currentServer.getOrNull() ?: return null
+    val servername = server.server.serverInfo.name
 
-        return Balancer.server(servername)
-    }
+    return Balancer.server(servername)
+}

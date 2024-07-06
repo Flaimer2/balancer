@@ -1,11 +1,19 @@
 package ru.snapix.balancer
 
 import kotlinx.serialization.json.Json
-import ru.snapix.library.ServerType
-import ru.snapix.library.redis.async
-import ru.snapix.library.redis.redisClient
+import ru.snapix.library.network.ServerType
+import ru.snapix.library.utils.async
+import ru.snapix.library.utils.redisClient
 
 object Balancer {
+    fun servers(): List<BalancerServer> {
+        val list = mutableListOf<BalancerServer>()
+        for (type in ServerType.entries) {
+            list.addAll(servers(type))
+        }
+        return list
+    }
+
     fun servers(type: ServerType): List<BalancerServer> {
         if (type == ServerType.UNKNOWN) return listOf()
         val result = redisClient.async {
@@ -24,7 +32,7 @@ object Balancer {
     }
 
     fun server(server: String): BalancerServer? {
-        return server(ServerType(server), server)
+        return server(ServerType[server], server)
     }
 }
 

@@ -9,7 +9,7 @@ import ru.snapix.balancer.State
 import ru.snapix.balancer.balancerBukkit
 import ru.snapix.balancer.balancerServer
 import ru.snapix.balancer.handlers.Handler
-import ru.snapix.library.ServerType
+import ru.snapix.library.network.ServerType
 
 object SkyWarsHandler : Handler {
     private val plugin = balancerBukkit

@@ -1,15 +1,11 @@
-package ru.snapix.balancer.handlers.lobby
+package ru.snapix.balancer
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
-import ru.snapix.balancer.Balancer
-import ru.snapix.balancer.BalancerServer
-import ru.snapix.balancer.Mode
-import ru.snapix.balancer.balancerBukkit
 import ru.snapix.balancer.extensions.canJoin
 import ru.snapix.balancer.extensions.getBestServer
-import ru.snapix.library.ServerType
+import ru.snapix.library.network.ServerType
 
 class BalancerExpansion : PlaceholderExpansion() {
     override fun getIdentifier() = "balancer"
@@ -20,7 +16,7 @@ class BalancerExpansion : PlaceholderExpansion() {
     override fun onRequest(player: OfflinePlayer?, params: String): String? {
         if (params.startsWith("count:", ignoreCase = true)) {
             val arg = params.removePrefix("count:").lowercase().split(":")
-            val serverType = ServerType(arg[0])
+            val serverType = ServerType[arg[0]]
 
             if (arg.size == 1) {
                 val servers = Balancer.servers(serverType)
@@ -43,7 +39,7 @@ class BalancerExpansion : PlaceholderExpansion() {
             val arg = params.removePrefix("best:").lowercase().split('_')
             val filter = arg[0].split(':')
             val value = arg[1]
-            val serverType = ServerType(filter[0])
+            val serverType = ServerType[filter[0]]
 
             when (filter.size) {
                 1 -> {

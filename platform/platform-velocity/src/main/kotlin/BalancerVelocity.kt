@@ -7,18 +7,18 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
 import com.velocitypowered.api.plugin.Dependency
 import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
-import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
+import com.velocitypowered.api.proxy.server.RegisteredServer
+import com.velocitypowered.api.proxy.server.ServerInfo
 import kotlinx.serialization.json.Json
 import org.slf4j.Logger
 import ru.snapix.balancer.events.PlayerConnectEvent
 import ru.snapix.balancer.listeners.ConnectionListener
 import ru.snapix.library.libs.kreds.connection.AbstractKredsSubscriber
-import ru.snapix.library.players
-import ru.snapix.library.redis.async
-import ru.snapix.library.redis.redisClient
-import ru.snapix.library.redis.subscribe
+import ru.snapix.library.utils.subscribe
 import ru.snapix.library.velocity.VelocityPlugin
+import ru.snapix.library.velocity.plugin
+import java.net.InetSocketAddress
 import java.nio.file.Path
 import kotlin.jvm.optionals.getOrNull
 
@@ -26,10 +26,11 @@ import kotlin.jvm.optionals.getOrNull
     id = "snapibalancer",
     name = "SnapiBalancer",
     version = "1.5",
-    authors = ["Flaimer"],
+    authors = ["SnapiX"],
     dependencies = [Dependency(id = "snapilibrary")]
 )
 class BalancerVelocity @Inject constructor(server: ProxyServer, logger: Logger, @DataDirectory dataDirectory: Path) : VelocityPlugin() {
+    lateinit var lobbyServer: RegisteredServer
     init {
         init(server, logger, dataDirectory)
     }
@@ -56,7 +57,7 @@ class BalancerVelocity @Inject constructor(server: ProxyServer, logger: Logger, 
                     balancerServer.name,
                     balancerServer.state
                 )
-                player.createConnectionRequest(connectServer)
+                player.createConnectionRequest(connectServer).connect()
                 server.eventManager.fire(PlayerConnectEvent(player, connectServer, balancerServer))
             }
 
@@ -68,24 +69,15 @@ class BalancerVelocity @Inject constructor(server: ProxyServer, logger: Logger, 
                 logger.info("Success unsubscribed to channel: $channel")
             }
         }, redisKeyConnect)
-        server.eventManager.register(this, ConnectionListener())
+        plugin.server.eventManager.register(this, ConnectionListener())
+        lobbyServer = server.registerServer(ServerInfo(
+            "lobby", InetSocketAddress.createUnresolved("fake.server.balancer", 8000)
+        ))
     }
 
     @Subscribe
     fun onDisable(event: ProxyShutdownEvent) {
-        players().forEach { removePlayer(it) }
-    }
-
-    fun addPlayer(name: String) {
-        redisClient.async {
-            sadd(KEY_REDIS_PLAYER, name)
-        }
-    }
-
-    fun removePlayer(name: String) {
-        redisClient.async {
-            srem(KEY_REDIS_PLAYER, name)
-        }
+        PlayerConnectCache.values().forEach { PlayerConnectCache.remove(it) }
     }
 
     companion object {
@@ -93,5 +85,4 @@ class BalancerVelocity @Inject constructor(server: ProxyServer, logger: Logger, 
     }
 }
 
-const val KEY_REDIS_PLAYER = "proxy-player"
 val balancerVelocity = BalancerVelocity.instance

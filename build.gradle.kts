@@ -37,14 +37,18 @@ subprojects {
     }
 
     tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-        archiveFileName.set("$rootName-${project.name.removePrefix("platform-").uppercaseFirstChar()}.jar")
+        if (project.name.startsWith("universal")) {
+            archiveFileName.set("$rootName.jar")
+        } else {
+            archiveFileName.set("$rootName-${project.name.removePrefix("platform-").uppercaseFirstChar()}.jar")
+        }
         archiveAppendix.set("")
         archiveClassifier.set("")
     }
 }
 
 subprojects
-    .filter { it.name.startsWith("platform-bukkit") }
+    .filter { it.name.startsWith("platform-") }
     .forEach { proj ->
         proj.publishing { applyToSub(proj) }
     }

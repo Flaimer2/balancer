@@ -1,8 +1,11 @@
 dependencies {
+    kapt(libs.velocityapi)
+
     implementate("common")
 
     compileOnly(libs.velocityapi)
     compileOnly(libs.snapilibrary.velocity)
+    compileOnly(libs.cooperation)
 }
 
 tasks {

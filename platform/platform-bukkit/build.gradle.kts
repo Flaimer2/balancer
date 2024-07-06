@@ -8,6 +8,7 @@ dependencies {
     compileOnly(libs.bukkit)
     compileOnly(libs.snapilibrary.bukkit)
     compileOnly(libs.placeholderapi)
+    compileOnly(libs.cooperation)
 
     compileOnly(files("libs/UltraSkyWars.jar"))
 }

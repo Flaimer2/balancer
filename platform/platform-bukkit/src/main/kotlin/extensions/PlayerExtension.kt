@@ -6,9 +6,9 @@ import org.bukkit.entity.Player
 import ru.snapix.balancer.BalancerServer
 import ru.snapix.balancer.PlayerConnect
 import ru.snapix.balancer.redisKeyConnect
-import ru.snapix.library.ServerType
-import ru.snapix.library.redis.async
-import ru.snapix.library.redis.redisClient
+import ru.snapix.library.network.ServerType
+import ru.snapix.library.utils.async
+import ru.snapix.library.utils.redisClient
 
 fun Player.connect(server: BalancerServer) {
     if (server.serverType == ServerType.UNKNOWN) return

@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.0.0"
-snapilibrary = "1.11.1"
+snapilibrary = "2.0.0"
 serialization = "1.7.1"
 shadow = "7.1.2"
 velocity = "3.2.0-SNAPSHOT"
@@ -8,6 +8,7 @@ protocolize = "2.3.3"
 paper-api = "1.12.2-R0.1-SNAPSHOT"
 plugin-yml-bukkit = "0.6.0"
 placeholderapi = "2.11.6"
+cooperation = "1.0.0"
 
 [libraries]
 velocityapi = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
@@ -17,6 +18,7 @@ snapilibrary-velocity = { module = "ru.snapix:snapilibrary-velocity", version.re
 snapilibrary-bukkit = { module = "ru.snapix:snapilibrary-bukkit", version.ref = "snapilibrary" }
 bukkit = { module = "com.destroystokyo.paper:paper-api", version.ref = "paper-api" }
 placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
+cooperation = { module = "ru.snapix:snapicooperation", version.ref = "cooperation" }
 
 [plugins]
 jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

@@ -24,6 +24,7 @@
             <option value="$PROJECT_DIR$/platform" />
             <option value="$PROJECT_DIR$/platform/platform-bukkit" />
             <option value="$PROJECT_DIR$/platform/platform-velocity" />
+            <option value="$PROJECT_DIR$/universal" />
           </set>
         </option>
       </GradleProjectSettings>
