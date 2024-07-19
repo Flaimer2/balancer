@@ -1,7 +1,8 @@
 dependencies {
-    compileVelocityApi()
-    compileSnapiLibraryVelocity()
-    implementateCommon()
+    implementate("common")
+
+    compileOnly(libs.velocityapi)
+    compileOnly(libs.snapilibrary.velocity)
 }
 
 tasks {

@@ -1,10 +1,9 @@
 import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 
 plugins {
-    kotlin("jvm") version kotlinVersion
-    kotlin("kapt") version kotlinVersion
-    kotlin("plugin.serialization") version kotlinVersion
-    id("com.github.johnrengelman.shadow") version shadowJarVersion
+    alias(libs.plugins.jvm)
+    alias(libs.plugins.shadow)
+    alias(libs.plugins.serialization)
     `maven-publish`
 }
 

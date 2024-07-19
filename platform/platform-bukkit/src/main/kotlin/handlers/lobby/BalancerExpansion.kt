@@ -6,6 +6,7 @@ import org.bukkit.entity.Player
 import ru.snapix.balancer.Balancer
 import ru.snapix.balancer.BalancerServer
 import ru.snapix.balancer.Mode
+import ru.snapix.balancer.balancerBukkit
 import ru.snapix.balancer.extensions.canJoin
 import ru.snapix.balancer.extensions.getBestServer
 import ru.snapix.library.ServerType
@@ -68,10 +69,15 @@ class BalancerExpansion : PlaceholderExpansion() {
             return getValue(player, Balancer.server(arg[0]), arg[1])
         }
 
+        if (params.startsWith("current:", ignoreCase = true)) {
+            val arg = params.removePrefix("current:").lowercase().split('_')
+            return getValue(player, balancerBukkit.currentServer(), arg[1])
+        }
+
         return null
     }
 
-    fun getValue(player: Player, server: BalancerServer?, key: String): String? = when (key.lowercase()) {
+    private fun getValue(player: Player, server: BalancerServer?, key: String): String? = when (key.lowercase()) {
         "name" -> server?.name
         "map" -> server?.map
         "port" -> server?.port?.toString()

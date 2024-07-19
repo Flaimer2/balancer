@@ -31,7 +31,7 @@ object SkyWarsHandler : Handler {
             map = game.spectator.world.name
             port = server.port
             serverType = ServerType.SKYWARS
-            players = game.players.map { it.uniqueId }
+            players = game.players.map { it.name }
             maxPlayers = server.maxPlayers
             state = state(game.state)
             mode = mode(game.gameType)

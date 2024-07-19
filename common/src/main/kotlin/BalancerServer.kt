@@ -10,7 +10,7 @@ data class BalancerServer(
     val name: String,
     val map: String,
     val port: Int,
-    val players: List<@Serializable(with = UUIDSerializer::class) UUID> = mutableListOf(),
+    val players: List<String> = mutableListOf(),
     val maxPlayers: Int,
     val serverType: ServerType,
     var state: State,
@@ -49,7 +49,7 @@ data class BalancerServer(
         var name: String? = null
         var map: String? = null
         var port: Int? = null
-        var players: List<UUID> = emptyList()
+        var players: List<String> = emptyList()
         var maxPlayers: Int = 0
         var serverType: ServerType = ServerType.UNKNOWN
         var state: State = State.RESTARTING

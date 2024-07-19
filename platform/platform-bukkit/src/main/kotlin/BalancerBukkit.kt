@@ -48,6 +48,10 @@ class BalancerBukkit : JavaPlugin() {
         }
     }
 
+    fun currentServer(): BalancerServer {
+        return balancerServer
+    }
+
 
     companion object {
         lateinit var instance: BalancerBukkit

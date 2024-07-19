@@ -3,11 +3,13 @@ plugins {
 }
 
 dependencies {
-    compileSpigotApi()
-    compileSnapiLibraryBukkit()
-    implementateCommon()
+    implementate("common")
+
+    compileOnly(libs.bukkit)
+    compileOnly(libs.snapilibrary.bukkit)
+    compileOnly(libs.placeholderapi)
+
     compileOnly(files("libs/UltraSkyWars.jar"))
-    compileOnly("me.clip:placeholderapi:2.11.6")
 }
 
 tasks {

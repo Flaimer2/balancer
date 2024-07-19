@@ -1,5 +1,5 @@
 dependencies {
-    compileSnapiLibraryVelocity()
-    compileSnapiLibraryBukkit()
-    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion")
+    compileOnly(libs.snapilibrary.bukkit)
+    compileOnly(libs.snapilibrary.velocity)
+    compileOnly(libs.serialization)
 }
