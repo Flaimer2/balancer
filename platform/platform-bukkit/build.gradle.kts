@@ -10,7 +10,7 @@ dependencies {
     compileOnly(libs.placeholderapi)
     compileOnly(libs.cooperation)
 
-    compileOnly(files("libs/UltraSkyWars.jar"))
+    compileOnly(fileTree("libs"))
 }
 
 tasks {
@@ -25,4 +25,5 @@ bukkit {
     author = "Flaimer"
     website = "https://mcsnapix.ru"
     depend = listOf("SnapiLibrary", "PlaceholderAPI")
+    softDepend = listOf("TheBridge", "UltraSkyWars", "HBedWars")
 }

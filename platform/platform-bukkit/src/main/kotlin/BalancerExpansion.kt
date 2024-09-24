@@ -5,6 +5,7 @@ import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import ru.snapix.balancer.extensions.canJoin
 import ru.snapix.balancer.extensions.getBestServer
+import ru.snapix.library.SnapiLibrary
 import ru.snapix.library.network.ServerType
 
 class BalancerExpansion : PlaceholderExpansion() {
@@ -16,13 +17,20 @@ class BalancerExpansion : PlaceholderExpansion() {
     override fun onRequest(player: OfflinePlayer?, params: String): String? {
         if (params.startsWith("count:", ignoreCase = true)) {
             val arg = params.removePrefix("count:").lowercase().split(":")
-            val serverType = ServerType[arg[0]]
 
             if (arg.size == 1) {
+                if (arg[0] == "all") {
+                    return SnapiLibrary.getOnlinePlayers().size.toString()
+                }
+                if (arg[0] == "games") {
+                    return Balancer.servers { it.isGame() }.sumOf { it.players.size }.toString()
+                }
+                val serverType = ServerType[arg[0]]
                 val servers = Balancer.servers(serverType)
                 return servers.sumOf { it.players.size }.toString()
             }
             if (arg.size == 2) {
+                val serverType = ServerType[arg[0]]
                 val mode = Mode.entries.find { it.name == arg[1].uppercase() }
                 return if (mode != null) {
                     Balancer.servers(serverType).filter { it.mode == mode }.sumOf { it.players.size }.toString()

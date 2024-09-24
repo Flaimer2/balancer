@@ -6,6 +6,14 @@ import ru.snapix.library.utils.async
 import ru.snapix.library.utils.redisClient
 
 object Balancer {
+    fun servers(filter: (ServerType) -> Boolean): List<BalancerServer> {
+        val list = mutableListOf<BalancerServer>()
+        ServerType.entries.filter(filter).forEach {
+            list.addAll(servers(it))
+        }
+        return list
+    }
+
     fun servers(): List<BalancerServer> {
         val list = mutableListOf<BalancerServer>()
         for (type in ServerType.entries) {

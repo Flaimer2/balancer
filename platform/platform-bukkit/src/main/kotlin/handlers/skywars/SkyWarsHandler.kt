@@ -32,7 +32,7 @@ object SkyWarsHandler : Handler {
             port = server.port
             serverType = ServerType.SKYWARS
             players = game.players.map { it.name }
-            maxPlayers = server.maxPlayers
+            maxPlayers = game.max
             state = state(game.state)
             mode = mode(game.gameType)
         }
@@ -45,7 +45,7 @@ object SkyWarsHandler : Handler {
             map = gameData.map
             port = server.port
             serverType = ServerType.SKYWARS
-            maxPlayers = server.maxPlayers
+            maxPlayers = gameData.max
             state = state(gameData.state)
             mode = mode(gameData.type)
         }

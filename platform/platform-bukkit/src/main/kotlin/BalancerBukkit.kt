@@ -5,12 +5,15 @@ import kotlinx.serialization.json.Json
 import org.bukkit.plugin.java.JavaPlugin
 import ru.snapix.balancer.commands.ConnectCommand
 import ru.snapix.balancer.handlers.Handler
+import ru.snapix.balancer.handlers.bedwars.BedWarsHandler
 import ru.snapix.balancer.handlers.lobby.LobbyHandler
+import ru.snapix.balancer.handlers.murdermystery.MurderMysteryHandler
 import ru.snapix.balancer.handlers.skywars.SkyWarsHandler
 import ru.snapix.balancer.handlers.survival.AnarchyHandler
 import ru.snapix.balancer.handlers.survival.ClassicHandler
 import ru.snapix.balancer.handlers.survival.SkyBlockHandler
 import ru.snapix.balancer.handlers.survival.SkyPvPHandler
+import ru.snapix.balancer.handlers.thebridge.TheBridgeHandler
 import ru.snapix.library.bukkit.SnapiLibraryBukkit
 import ru.snapix.library.libs.commands.PaperCommandManager
 import ru.snapix.library.network.ServerType
@@ -26,19 +29,20 @@ class BalancerBukkit : JavaPlugin() {
     }
 
     override fun onEnable() {
-        when (SnapiLibraryBukkit.instance.serverType) {
+        handler = when (SnapiLibraryBukkit.instance.serverType) {
             ServerType.AUTH -> error("Cant use this plugin at Auth")
-            ServerType.LOBBY -> LobbyHandler.enable()
-            ServerType.CLASSIC -> ClassicHandler.enable()
-            ServerType.SKYBLOCK -> SkyBlockHandler.enable()
-            ServerType.SKYPVP -> SkyPvPHandler.enable()
-            ServerType.ANARCHY -> AnarchyHandler.enable()
-            ServerType.SKYWARS -> SkyWarsHandler.enable()
-            ServerType.BEDWARS -> TODO()
-            ServerType.MURDERMYSTERY -> TODO()
-            ServerType.THEBRIDGE -> TODO()
+            ServerType.LOBBY -> LobbyHandler
+            ServerType.CLASSIC -> ClassicHandler
+            ServerType.SKYBLOCK -> SkyBlockHandler
+            ServerType.SKYPVP -> SkyPvPHandler
+            ServerType.ANARCHY -> AnarchyHandler
+            ServerType.SKYWARS -> SkyWarsHandler
+            ServerType.BEDWARS -> BedWarsHandler
+            ServerType.MURDERMYSTERY -> MurderMysteryHandler
+            ServerType.THEBRIDGE -> TheBridgeHandler
             ServerType.UNKNOWN -> error("Not found server type")
         }
+        handler.enable()
         val commandManager = PaperCommandManager(this)
         commandManager.registerCommand(ConnectCommand())
         BalancerExpansion().register()

@@ -24,7 +24,7 @@ object SkyBlockHandler : SurvivalHandler {
             map = server.worlds[0].name
             port = server.port
             serverType = ServerType.SKYBLOCK
-            players = server.onlinePlayers.map { it.name }
+            players = if (stop) emptyList() else server.onlinePlayers.map { it.name }
             maxPlayers = server.maxPlayers
             state = if (stop) State.RESTARTING else State.WAITING
             mode = Mode.UNKNOWN

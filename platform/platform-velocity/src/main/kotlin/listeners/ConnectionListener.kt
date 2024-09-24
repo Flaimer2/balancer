@@ -1,5 +1,6 @@
 package ru.snapix.balancer.listeners
 
+import com.velocitypowered.api.event.PostOrder
 import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.player.ServerConnectedEvent
 import com.velocitypowered.api.event.player.ServerPreConnectEvent
@@ -9,11 +10,10 @@ import ru.snapix.balancer.PlayerConnectCache
 import ru.snapix.balancer.balancerVelocity
 import ru.snapix.balancer.extensions.canJoin
 import ru.snapix.library.network.ServerType
-import ru.snapix.library.utils.message
 import kotlin.jvm.optionals.getOrNull
 
 class ConnectionListener {
-    @Subscribe
+    @Subscribe(order = PostOrder.FIRST, async = false)
     fun onServerPreConnect(event: ServerPreConnectEvent) {
         val address = event.originalServer.serverInfo.name
         val addressLobby = balancerVelocity.lobbyServer.serverInfo.name
@@ -22,7 +22,6 @@ class ConnectionListener {
             val server = balancerVelocity.server.getServer(balancerServer?.name ?: "null").getOrNull()
             if (server == null) {
                 event.result = ServerPreConnectEvent.ServerResult.denied()
-                event.player.message("Вы не можете зайти на этот сервер")
                 return
             }
             event.result = ServerPreConnectEvent.ServerResult.allowed(server)
